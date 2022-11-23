@@ -1,17 +1,34 @@
 import s from './ContactList.module.css';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContacts } from '../redux/contactsSlice';
+import { deleteContacts } from '../redux/contactsOperations';
+import { getContactsState } from '../redux/selectors';
 
-const ContactList = () => {
-    const dispatch = useDispatch();
-    const { contacts } = useSelector(state => state.contacts)
-    const filterValue = useSelector(state => state.filter);
-    const visibleContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filterValue.toLowerCase())
-    );
+// const ContactList = () => {
+//     const {
+//         contacts: { items, isLoading, error },
+//         filter: filterValue,
+//             } = useSelector(getContactsState);
+//     const dispatch = useDispatch();
+//     // const { items } = useSelector(state => state.contacts)
+//     // const filterValue = useSelector(state => state.filter);
+//     const visibleContacts = items.filter(contact =>
+//     contact.name.toLowerCase().includes(filterValue.toLowerCase())
+//     );
+
+  const ContactList = () => {
+  const {
+    contacts: { items },
+    filter: filterValue,
+  } = useSelector(getContactsState);
+  const dispatch = useDispatch();
+      const visibleContacts = items.filter(contact =>
+          contact.name.toLowerCase().includes(filterValue.toLowerCase())
+      );
+
     
-return (
+      return (
+    
     <ul className={s.list}>
         {visibleContacts.map(({ id, name, number}) => (
             <li key={id} className={s.listItem} >
